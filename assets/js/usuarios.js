@@ -9,7 +9,7 @@ const vUsuarios = new Vue({
 	},   
 	methods:{
 		verificarUsuario(e){
-				
+					
 		}
 	}
 })
