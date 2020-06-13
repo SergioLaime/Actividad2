@@ -1,0 +1,7 @@
+.fondo-login{
+  background: linear-gradient(180deg,#002844,#273D59,#38475F,#50585F,#726351,#785335,#663C20,#29190F)
+}
+
+h1,h2,h3,h4,h5,p,li,a,span,label,button,th,td{
+  font-family: 'Rubik', sans-serif;
+}
