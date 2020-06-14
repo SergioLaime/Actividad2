@@ -5,7 +5,6 @@ class Usuarios extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('url');
 		$this->load->model('usuario_model', 'um');
 	}
 	public function index()

@@ -6,13 +6,18 @@ class Login extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('url');
 		// cargar el modelo usuario
 		$this->load->model('usuario_model', 'um');
 	}
 	public function index()
+	{	}
+
+	public function autenticacion()
 	{
-		$this->load->view('login');
+		$view['header'] = $this->load->view('login/template/header', NULL, TRUE);
+		$view['form'] = $this->load->view('login/utils/form', NULL, TRUE);
+		$view['footer'] = $this->load->view('login/template/footer', NULL, TRUE);
+		$this->parser->parse('login/index',$view);
 	}
 
 	public function verificarUsuario()

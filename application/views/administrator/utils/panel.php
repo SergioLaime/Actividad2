@@ -1,0 +1,1 @@
+<h1 class="text-4xl text-bold px-10 py-5">DASHBOARD</h1>

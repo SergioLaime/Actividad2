@@ -60,7 +60,7 @@ const vLogin =new Vue({
   				return;
   			}
   			// redireccionar
-        location.href='template';
+        location.href='administrador';
   		})
   		.catch(error => {
   		})
