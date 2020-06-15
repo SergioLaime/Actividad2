@@ -54,16 +54,22 @@ const vLogin =new Vue({
   		};
   		axios.post('Login/verificarUsuario', data)
   		.then(resp => {
-  			if (resp.data.error)
-  			{
-  				this.errorSesion=true;
-  				return;
-  			}
-  			// redireccionar
-        location.href='administrador';
-  		})
-  		.catch(error => {
-  		})
+
+  		  if (resp.data.result["status"] == "200")
+        {
+
+          document.cookie ="status"+"="+resp.data.result["status"];
+          
+          location.href='administrador';
+          
+        }
+
+      })
+      .catch(error => {
+        this.errorSesion=true;
+  		  console.log('Exception:',error);
+        console.log(this.errorSesion);
+      })
   	}
   }
 })

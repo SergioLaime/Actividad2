@@ -25,7 +25,7 @@ class Login extends CI_Controller {
 	{
 		$data = json_decode(file_get_contents("php://input"), true);
 
-		print_r($data);
+
 		// obtener los usuarios
 		$usuarios=$this->um->get();
 		
@@ -34,6 +34,8 @@ class Login extends CI_Controller {
 
 			if($usuario->email==$data['login'] && $usuario->contrasena==$data['passwd'])
 			{
+
+
 				$this->load->library("authorization_token");
 				
 				$token_data["user_id"]=$usuario->idUsuarios;
@@ -50,18 +52,19 @@ class Login extends CI_Controller {
 					'user_id'=>$usuario->idUsuarios,
 					'nombre'=>$usuario->nombre,
 					'email'=>$usuario->email,
-					'fecha'=>$usuario->fecha_nacimiento,
-					'time'=>$time+(60*60*24),//1 dia
+					'fecha'=>$usuario->fecha_nacimiento,//1 dia
 					'token'=>$user_token,
 					'result'=>[
-						'status'=>200
+						'status'=>200,
+						'time'=>$time+(60*60*24),
+						'token'=>$user_token,
+						'error'=>0,
 					]);
 				
-				echo "<pre>"; print_r($return_data); echo "</pre>";
-
-				$this->load->view('login',$user_token);
 				
-				return $return_data;
+				
+				echo json_encode($return_data);
+
 				/* $_SESSION['hora_sesion']=time();
 				$_SESSION['nueva_sesion']=$usuario;
 				// guardar datos en sesion de usuario
@@ -81,7 +84,15 @@ class Login extends CI_Controller {
 				return; */
 			}
 		}
+
+		$return_data=array(
+			'result'=>[
+			'status'=>404,
+			'error'=>1,
+		]);
+		return;
+			
 		// usuario no encontrado
-		echo json_encode(array('error' => 'true'));
+		//echo json_encode($return_data);
 	}
 }
