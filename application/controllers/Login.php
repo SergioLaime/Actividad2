@@ -38,61 +38,30 @@ class Login extends CI_Controller {
 
 				$this->load->library("authorization_token");
 				
-				$token_data["user_id"]=$usuario->idUsuarios;
-				$token_data["nombre"]=$usuario->nombre;
-				$token_data["fecha"]=$usuario->fecha_nacimiento;
-				$token_data["email"]=$usuario->email;
-				$token_data["time"]=time();
-
-				$user_token = $this->authorization_token->generateToken($token_data);
-
 				$time=time();
 
-				$return_data=array(
+				$return_data=array();
+				
+				$return_data["header"]=array("type"=>"JWT","alg"=>"HS256");
+				$return_data["payload"]=array(
 					'user_id'=>$usuario->idUsuarios,
 					'nombre'=>$usuario->nombre,
 					'email'=>$usuario->email,
-					'fecha'=>$usuario->fecha_nacimiento,//1 dia
-					'token'=>$user_token,
-					'result'=>[
-						'status'=>200,
-						'time'=>$time+(60*60*24),
-						'token'=>$user_token,
-						'error'=>0,
-					]);
-				
-				
-				
-				echo json_encode($return_data);
+					'fecha'=>$usuario->fecha_nacimiento,
+					'time'=>$time+(60*60*24)
+					);
+				$return_data["status"]=array(
+					'status'=>200);
 
-				/* $_SESSION['hora_sesion']=time();
-				$_SESSION['nueva_sesion']=$usuario;
-				// guardar datos en sesion de usuario
-				$sesion=array(
-					'hora_inicio' => date('H:i:s'),
-					'hora_salida' => '00:00:00',
-					'fecha' => date('Y-m-d'),
-					'usuario_id' => $usuario->idUsuario
-				);
-				$resp_sesion=$this->sm->store($sesion);
-				if (!($resp_sesion['affected_rows']>0))
-				{
-					echo 'No se guardo la sesion de inicio!!!';
-					return;
-				}
-				$_SESSION['nueva_sesion']->sesion_id=$resp_sesion['sesion_id'];
-				return; */
+				$user_token = $this->authorization_token->generateToken($return_data);
+				
+				echo json_encode($user_token);
+
 			}
 		}
 
-		$return_data=array(
-			'result'=>[
-			'status'=>404,
-			'error'=>1,
-		]);
-		return;
-			
-		// usuario no encontrado
-		//echo json_encode($return_data);
+		//usuario no encontrado
+		echo json_encode(array('error'=>true,'mensaje'=>'Unauthoised'));
+		exit();
 	}
 }
