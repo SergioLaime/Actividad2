@@ -7,6 +7,7 @@ const vLogin =new Vue({
     errorPassword:null,
     subirEmail:null,
 		subirPassword:null,
+    token:null,
 		errorSesion:false
   },
   methods:{
@@ -54,16 +55,18 @@ const vLogin =new Vue({
   		};
   		axios.post('Login/verificarUsuario', data)
   		.then(resp => {
-        if (resp.data)
+        if (!resp.data["error"])
         {
-              
+          this.token=resp.data;
+          
+          localStorage.setItem("token",this.token);
           location.href='administrador';
           
         }
+        console.log(resp.data)
         errorSesion:true;
       })
       .catch(error => {
-        show_error(getMessage());
       })
   	}
   }

@@ -1,5 +1,5 @@
 const vUsuarios = new Vue({
-	el:'appUsuarios',
+	el:'#appUsuarios',
 	data:{
 		nombreUsuario:null, 
 		fechaNacimiento:null, 
