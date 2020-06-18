@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once "vendor/autoload.php";
+
+use \Firebase\JWT\JWT;
 
 class Login extends CI_Controller {
 
@@ -34,6 +37,7 @@ class Login extends CI_Controller {
 
 			if($usuario->email==$data['login'] && $usuario->contrasena==$data['passwd'])
 			{
+				
 
 
 				$this->load->library("authorization_token");
@@ -41,7 +45,7 @@ class Login extends CI_Controller {
 				$time=time();
 
 				$return_data=array();
-				
+				$token_key="Dsw1s9x8@";
 				$return_data["header"]=array("type"=>"JWT","alg"=>"HS256");
 				$return_data["payload"]=array(
 					'user_id'=>$usuario->idUsuarios,
@@ -53,9 +57,17 @@ class Login extends CI_Controller {
 				$return_data["status"]=array(
 					'status'=>200);
 
-				$user_token = $this->authorization_token->generateToken($return_data);
+				//$user_token = $this->authorization_token->generateToken($return_data);
 				
-				echo json_encode($user_token);
+
+				$data=JWT::encode($return_data,$token_key);
+				
+				
+				//$dato=JWT::decode($data,$token_key,array('HS256'));
+				//print_r($dato);
+				//die();
+				echo json_encode($data);
+				return;
 
 			}
 		}
@@ -64,4 +76,15 @@ class Login extends CI_Controller {
 		echo json_encode(array('error'=>true,'mensaje'=>'Unauthoised'));
 		exit();
 	}
+	/*public function verificarToken()
+	{
+
+		$token_key="Dsw1s9x8@";
+		$a=getallheaders();
+		print_r($a["Authorization"]);
+		$dato=JWT::decode($a["Authorization"],$token_key,array('HS256'));
+		print_r($dato);
+
+
+	}*/
 }

@@ -60,7 +60,17 @@ const vLogin =new Vue({
           this.token=resp.data;
           
           localStorage.setItem("token",this.token);
-          location.href='administrador';
+        
+          /*axios({
+            method: 'post', //you can set what request you want to be
+            url: 'Login/verificarToken',
+            headers: {
+              Authorization:this.token
+            }
+          })*/
+
+
+          //location.href='administrador';
           
         }
         console.log(resp.data)
