@@ -10,13 +10,15 @@ class Administrator extends CI_Controller {
 	{	}
 	public function admin()
 	{
-		$view['header'] = $this->load->view('administrator/template/header', NULL, TRUE);
-		$view['nav'] = $this->load->view('administrator/utils/nav', NULL, TRUE);
-		$view['menu-sidebar'] = $this->load->view('administrator/utils/menu-sidebar', NULL, TRUE);
-		$view['panel'] = $this->load->view('administrator/utils/panel', NULL, TRUE);
-		$view['footer'] = $this->load->view('administrator/template/footer', NULL, TRUE);
-		
-		$this->parser->parse('administrator/index',$view);
 
+		if($_SESSION["email"] && $_SESSION["id"]){
+			$view['header'] = $this->load->view('administrator/template/header', NULL, TRUE);
+			$view['nav'] = $this->load->view('administrator/utils/nav', NULL, TRUE);
+			$view['menu-sidebar'] = $this->load->view('administrator/utils/menu-sidebar', NULL, TRUE);
+			$view['panel'] = $this->load->view('administrator/utils/panel', NULL, TRUE);
+			$view['footer'] = $this->load->view('administrator/template/footer', NULL, TRUE);
+			
+			$this->parser->parse('administrator/index',$view);
+		}	
 	}
 }

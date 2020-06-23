@@ -12,6 +12,7 @@ class Login extends CI_Controller {
 		parent::__construct();
 		// cargar el modelo usuario
 		$this->load->model('usuario_model', 'um');
+		$this->load->library("authorization_token");
 	}
 	public function index()
 	{	}
@@ -34,15 +35,21 @@ class Login extends CI_Controller {
 		
 		foreach ($usuarios as $usuario) {
 
-
 			if($usuario->email==$data['login'] && $usuario->contrasena==$data['passwd'])
 			{
-				
+				$datos_Session=array(
+					"id"=>$usuarios[0]->idUsuarios,
+					"nombre"=>$usuarios[0]->nombre,
+					"fecha_nacimiento"=>$usuarios[0]->fecha_nacimiento,
+					"orientacion_sexual"=>$usuarios[0]->orientacion_sexual,
+					"email"=>$usuarios[0]->email,
+					"telefono"=>$usuarios[0]->telefono
+				);
 
-				$this->load->library("authorization_token");
-				
+				$this->session->set_userdata($datos_Session);
+
+
 				$time=time();
-
 				$return_data=array();
 				$token_key="Dsw1s9x8@";
 				$return_data["header"]=array("type"=>"JWT","alg"=>"HS256");
