@@ -48,6 +48,11 @@ const vLogin =new Vue({
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
     },
+    parseJwt (token){ 
+      var base64Url = token.split('.')[1]; 
+      var base64 = base64Url.replace('-', '+').replace('_', '/'); 
+      return JSON.parse(window.atob(base64)); 
+    },      
     verificarUsuario(){
   		let data={
   			'login': this.email,
@@ -55,25 +60,21 @@ const vLogin =new Vue({
   		};
   		axios.post('Login/verificarUsuario', data)
   		.then(resp => {
+        
         if (!resp.data["error"])
         {
-          this.token=resp.data;
           
-          localStorage.setItem("token",this.token);
-        
-          /*axios({
-            method: 'post', //you can set what request you want to be
-            url: 'Login/verificarToken',
-            headers: {
-              Authorization:this.token
-            }
-          })*/
-
-
-          //location.href='administrador';
+          this.token=resp.data;
+          const token= this.parseJwt(this.token);
+          
+          if(token){
+      
+            localStorage.setItem("token",this.token);
+            console.log(this.token);
+            location.href='administrador';
+          }
           
         }
-        console.log(resp.data)
         errorSesion:true;
       })
       .catch(error => {

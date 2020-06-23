@@ -14,51 +14,76 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function alter_controller(){
-
-		$respuesta=$this->um->alter();
-		if($respuesta == 1){	
+		$data = json_decode(file_get_contents("php://input"), true);
+		
+		$respuesta=$this->um->alter($data);
+		if($respuesta == 1){
+			$json=array(
+				"respuesta"=>$data,
+				"status"=>200,
+				"error"=>0);
+			echo json_encode($json);
+			
 		}
 
 		else{
+			$json=array(
+				"respuesta"=>$data,
+				"status"=>404,
+				"error"=>1);
+			echo json_encode($json);
+		
 		}
 
 	}
 
 	public function store_controller(){
 
-		$respuesta=$this->um->alter();
-		if($respuesta){	
+		$data = json_decode(file_get_contents("php://input"), true);
+
+		$respuesta=$this->um->store($data);
+		if($respuesta["affected_rows"] == 1){	
 			
-			$json='{
-				"result":"'.$respuesta.'",
-				"status":200,
-				"error":0
-			}';
+			$json=array(
+				"respuesta"=>$data,
+				"status"=>200,
+				"error"=>0);
 			echo json_encode($json);
+			
 		}
 
 		else{
-			$json='{
-				"result":"'.$respuesta.'",
-				"status":404,
-				"error":1
-			}';
+			$json=array(
+				"respuesta"=>$data,
+				"status"=>404,
+				"error"=>1);
 			echo json_encode($json);
-
+			
 
 		}
 
 	}
 
 	public function destroy_controller(){
-
-		$respuesta=$this->um->alter();
-		if($respuesta == 1){	
 		
 
+		$respuesta=$this->um->destroy();
+		if($respuesta == 1){	
+			$json=array(
+				"respuesta"=>$data,
+				"status"=>200,
+				"error"=>0);
+			echo json_encode($json);
+		
 		}
 
 		else{
+			$json=array(
+				"respuesta"=>$data,
+				"status"=>404,
+				"error"=>1);
+			echo json_encode($json);
+		
 		}
 
 	}	

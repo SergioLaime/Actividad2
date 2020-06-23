@@ -39,7 +39,6 @@ class Login extends CI_Controller {
 			{
 				
 
-
 				$this->load->library("authorization_token");
 				
 				$time=time();
