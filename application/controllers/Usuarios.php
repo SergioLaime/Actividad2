@@ -14,12 +14,13 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function alter_controller(){
+		
 		$data = json_decode(file_get_contents("php://input"), true);
 		
 		$respuesta=$this->um->alter($data);
 		if($respuesta == 1){
 			$json=array(
-				"respuesta"=>$data,
+				"respuesta"=>$respuesta,
 				"status"=>200,
 				"error"=>0);
 			echo json_encode($json);
@@ -28,7 +29,7 @@ class Usuarios extends CI_Controller {
 
 		else{
 			$json=array(
-				"respuesta"=>$data,
+				"respuesta"=>$respuesta,
 				"status"=>404,
 				"error"=>1);
 			echo json_encode($json);
@@ -45,7 +46,7 @@ class Usuarios extends CI_Controller {
 		if($respuesta["affected_rows"] == 1){	
 			
 			$json=array(
-				"respuesta"=>$data,
+				"respuesta"=>$respuesta,
 				"status"=>200,
 				"error"=>0);
 			echo json_encode($json);
@@ -54,7 +55,7 @@ class Usuarios extends CI_Controller {
 
 		else{
 			$json=array(
-				"respuesta"=>$data,
+				"respuesta"=>$respuesta,
 				"status"=>404,
 				"error"=>1);
 			echo json_encode($json);
@@ -70,7 +71,7 @@ class Usuarios extends CI_Controller {
 		$respuesta=$this->um->destroy();
 		if($respuesta == 1){	
 			$json=array(
-				"respuesta"=>$data,
+				"respuesta"=>$respuesta,
 				"status"=>200,
 				"error"=>0);
 			echo json_encode($json);
@@ -79,7 +80,7 @@ class Usuarios extends CI_Controller {
 
 		else{
 			$json=array(
-				"respuesta"=>$data,
+				"respuesta"=>$respuesta,
 				"status"=>404,
 				"error"=>1);
 			echo json_encode($json);
